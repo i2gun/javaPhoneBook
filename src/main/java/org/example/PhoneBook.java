@@ -5,35 +5,37 @@ import java.util.stream.Collectors;
 
 public class PhoneBook {
 
-    private Map<String, Set<Long>> records;
-    private Set<Long> phoneList;
+    private Map<PhoneBookKey, Set<Long>> records;
+    private Set<Long> phoneTotalList;
 
     PhoneBook() {
         records = new HashMap<>();
-        phoneList = new HashSet<>();
+        phoneTotalList = new HashSet<>();
+
+
     }
 
     public void addNewRecord(String name, long phoneNumber) {
-        if (phoneList.contains(phoneNumber)) {
+        if (phoneTotalList.contains(phoneNumber)) {
             records.get(findNameByPhoneNumber(phoneNumber)).remove(phoneNumber);
         }
-        if (!records.containsKey(name)) {
+
+        if (!records.containsKey(new PhoneBookKey(name, 0L))) {
             Set<Long> newList = new TreeSet<>();
             records.put(name, newList);
         }
         records.get(name).add(phoneNumber);
-        phoneList.add(phoneNumber);
+        phoneTotalList.add(phoneNumber);
     }
 
-    public String findNameByPhoneNumber(long phoneNumber) {
-        for (Map.Entry<String, Set<Long>> entry : records.entrySet()) {
+    public PhoneBookKey findNameByPhoneNumber(long phoneNumber) {
+        for (Map.Entry<PhoneBookKey, Set<Long>> entry : records.entrySet()) {
             for (long phone : entry.getValue()) {
                 if (phoneNumber == phone) return entry.getKey();
             }
         }
         return "";
     }
-
 
     public void printPhoneBook() {
         Map<String, Integer> valueSizeMap =
