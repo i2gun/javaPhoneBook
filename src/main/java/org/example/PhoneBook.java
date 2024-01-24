@@ -14,9 +14,10 @@ public class PhoneBook {
     }
 
     public void addNewRecord(String name, long phoneNumber) {
-        if (phoneList.contains(phoneNumber)) {
-            records.get(findNameByPhoneNumber(phoneNumber)).remove(phoneNumber);
-        }
+        if (name == "") return;
+        if (phoneNumber < 10000000000L || phoneNumber > 100000000000L) return;
+        if (phoneList.contains(phoneNumber)) return;
+
         if (!records.containsKey(name)) {
             Set<Long> newList = new TreeSet<>();
             records.put(name, newList);
@@ -24,16 +25,6 @@ public class PhoneBook {
         records.get(name).add(phoneNumber);
         phoneList.add(phoneNumber);
     }
-
-    public String findNameByPhoneNumber(long phoneNumber) {
-        for (Map.Entry<String, Set<Long>> entry : records.entrySet()) {
-            for (long phone : entry.getValue()) {
-                if (phoneNumber == phone) return entry.getKey();
-            }
-        }
-        return "";
-    }
-
 
     public void printPhoneBook() {
         Map<String, Integer> valueSizeMap =
@@ -45,6 +36,7 @@ public class PhoneBook {
 
         LinkedHashMap<String, Integer> sortedMap = valueSizeMap.entrySet()
                 .stream()
+                .sorted(Map.Entry.comparingByKey())
                 .sorted(Map.Entry.comparingByValue())
                 .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), Map::putAll);
 
