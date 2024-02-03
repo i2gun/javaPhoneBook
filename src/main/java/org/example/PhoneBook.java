@@ -5,36 +5,25 @@ import java.util.stream.Collectors;
 
 public class PhoneBook {
 
-    private Map<PhoneBookKey, Set<Long>> records;
-    private Set<Long> phoneTotalList;
+    private Map<String, Set<Long>> records;
+    private Set<Long> phoneList;
 
     PhoneBook() {
         records = new HashMap<>();
-        phoneTotalList = new HashSet<>();
-
-
+        phoneList = new HashSet<>();
     }
 
     public void addNewRecord(String name, long phoneNumber) {
-        if (phoneTotalList.contains(phoneNumber)) {
-            records.get(findNameByPhoneNumber(phoneNumber)).remove(phoneNumber);
-        }
+        if (name == "") return;
+        if (phoneNumber < 10000000000L || phoneNumber > 100000000000L) return;
+        if (phoneList.contains(phoneNumber)) return;
 
-        if (!records.containsKey(new PhoneBookKey(name, 0L))) {
+        if (!records.containsKey(name)) {
             Set<Long> newList = new TreeSet<>();
             records.put(name, newList);
         }
         records.get(name).add(phoneNumber);
-        phoneTotalList.add(phoneNumber);
-    }
-
-    public PhoneBookKey findNameByPhoneNumber(long phoneNumber) {
-        for (Map.Entry<PhoneBookKey, Set<Long>> entry : records.entrySet()) {
-            for (long phone : entry.getValue()) {
-                if (phoneNumber == phone) return entry.getKey();
-            }
-        }
-        return "";
+        phoneList.add(phoneNumber);
     }
 
     public void printPhoneBook() {
@@ -47,6 +36,7 @@ public class PhoneBook {
 
         LinkedHashMap<String, Integer> sortedMap = valueSizeMap.entrySet()
                 .stream()
+                .sorted(Map.Entry.comparingByKey())
                 .sorted(Map.Entry.comparingByValue())
                 .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), Map::putAll);
 
