@@ -2,6 +2,23 @@ import org.example.PhoneBook;
 
 public class Main {
     public static void main(String[] args) {
+        PhoneBook phoneBook = setPhoneBook();
+        phoneBook.printPhoneBook();
+
+        phoneBook.removeRecord("Ivan4");
+        System.out.println("Removing - Ivan4");
+        phoneBook.printPhoneBook();
+
+        System.out.println("Removing - 87775552212L from Ivan2");
+        phoneBook.removeNumber(87775552212L);
+        phoneBook.printPhoneBook();
+
+        System.out.println("Removing - 87775551117L from Ivan2");
+        phoneBook.removeNumber(87775551117L);
+        phoneBook.printPhoneBook();
+    }
+
+    private static PhoneBook setPhoneBook() {
         PhoneBook phoneBook = new PhoneBook();
         phoneBook.addNewRecord("Ivan", 87775552211L);
         phoneBook.addNewRecord("Ivan2", 87775552212L);
@@ -13,22 +30,6 @@ public class Main {
         phoneBook.addNewRecord("Ivan2", 87775551117L);
         phoneBook.addNewRecord("Ivan1", 87775550000L);
         phoneBook.addNewRecord("Ivan7", 87775558888L);
-        System.out.println();
-        phoneBook.printPhoneBook();
-        System.out.println();
-
-        phoneBook.removeRecord("Ivan4");
-        System.out.println("Removing - Ivan4");
-        phoneBook.printPhoneBook();
-        System.out.println();
-
-        System.out.println("Removing - 87775552212L from Ivan2");
-        phoneBook.removeNumber(87775552212L);
-        phoneBook.printPhoneBook();
-        System.out.println();
-
-        System.out.println("Removing - 87775551117L from Ivan2");
-        phoneBook.removeNumber(87775551117L);
-        phoneBook.printPhoneBook();
+        return phoneBook;
     }
 }

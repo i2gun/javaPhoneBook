@@ -9,7 +9,7 @@ public class PhoneBook {
     private final Set<Long> phoneList;
 
     public PhoneBook() {
-        records = new TreeMap<>();
+        records = new HashMap<>();
         phoneList = new HashSet<>();
     }
 
@@ -62,6 +62,7 @@ public class PhoneBook {
         for (String key : keys) {
             System.out.print("[" + key + ":" + records.get(key).getPhoneList() + "]  " );
         }
+        System.out.println();
         System.out.println();
     }
 
